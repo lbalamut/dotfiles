@@ -4,8 +4,7 @@
 "| .__/|_|\__,_|\__, |_|_| |_|___/
 "|_|            |___/
 " Vundle managed
-" :BundleInstall to install bundles
-" :BundleUpdate to update all
+" :BundleInstall! to install(!update) bundles
 filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -38,8 +37,10 @@ Bundle 'nanotech/jellybeans.vim'
 " FuzzyFinder
 Bundle 'L9'
 Bundle 'FuzzyFinder'
-nmap <D-e> :FufBuffer<CR>
-nmap <D-n> :FufTaggedFile<CR>
+map <D-e> :FufBuffer<CR>
+imap <D-e> <Esc>:FufBuffer<CR>
+map <D-n> :FufTaggedFile<CR>
+imap <D-n> <Esc>:FufTaggedFile<CR>
 
 " Tagbar
 Bundle 'Tagbar'
@@ -61,8 +62,8 @@ function! BufEnterCommit()
     start
   end
 endfunction
-autocmd BufEnter    *.git/COMMIT_EDITMSG             exe BufEnterCommit()
 
+autocmd BufEnter    *.git/COMMIT_EDITMSG             exe BufEnterCommit()
 autocmd BufReadPost fugitive://* set bufhidden=delete           " Automatically remove fugitive buffers
 
 
@@ -78,7 +79,6 @@ let NERDTreeShowLineNumbers=1
 let NERDTreeDirArrows=1
 let g:NERDTreeChDirMode=2 " Change the NERDTree directory to the root node
 let g:NERDTreeMinimalUI=1
-
 
 " idutils
 Bundle 'milkbikis/IDSearch.vim'
@@ -98,14 +98,14 @@ noremap <S-C-F> "ayiw:Ack <C-r>a<CR>
 vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
 " automatic helper
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
-Bundle 'honza/snipmate-snippets'
 Bundle 'garbas/vim-snipmate'
+" Bundle 'honza/snipmate-snippets'
 
 " commands
-Bundle 'godlygeek/tabular'
+" Bundle 'godlygeek/tabular'
 
 " language
 Bundle 'VimClojure'
@@ -123,7 +123,6 @@ Bundle 'rodjek/vim-puppet'
 " Makes css colors show up as their actual colors, works better with CSApprox
 " or macvim
 Bundle 'ap/vim-css-color'
-
 
 " custom functions
 source ~/.vim/functions.vim
@@ -164,7 +163,7 @@ set expandtab                           "replace tabs with spaces
 set tags=tags;/
 set hidden                              "enable buffers without disk access
 set wildmenu                            "use bash like tab completion for files
-set wildmode=longest,list               "at command line, complete longest common string, then list alternatives.
+set wildmode=list,longest               "at command line, complete longest common string, then list alternatives.
 set smartcase                           "unless the first character is uppercase
 set scrolloff=3                         "context around moving cursor
 set laststatus=2                        "always show the status line
@@ -194,7 +193,7 @@ set backup
 set noswapfile
 set undofile                            " Set undo
 
-set spell " Spell checking on
+set nospell                             " Spell checking on
 
 "__   _(_)___ _   _  __ _| |
 "\ \ / / / __| | | |/ _` | |
@@ -219,18 +218,7 @@ set nolist                              "display unprintable characters f12 - sw
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:»,precedes:« " Unprintable chars mapping
 set showbreak=↪
 
-" Cursorline {{{
-" Only show cursorline in the current window and in normal mode.
-augroup cline
-    au!
-    au WinLeave * set nocursorline
-    au WinEnter * set cursorline
-    au InsertEnter * set nocursorline
-    au InsertLeave * set cursorline
-augroup END
-
-
-set guitabtooltip=%F                    "Set up tab tooltips with every buffer name
+"set guitabtooltip=%F                    "Set up tab tooltips with every buffer name
 
 colorscheme jellybeans
 
@@ -243,10 +231,10 @@ colorscheme jellybeans
 
 autocmd FileType text setlocal textwidth=80
 autocmd BufWrite * :call Cleanup()
-autocmd Syntax * syn match ErrorMsg /\s\+$/
+"autocmd Syntax * syn match ErrorMsg /\s\+$/
 " Highlight current line in input mode
-autocmd InsertLeave * se nocul
-autocmd InsertEnter * se cul
+"autocmd InsertLeave * se nocul
+"autocmd InsertEnter * se cul
 
 " Switch buffers with Shift-Right and Shift-Left
 nnoremap <S-Right> :bnext<CR>
@@ -261,7 +249,7 @@ map <M-D-Left>  <C-t>
 map <leader>x <C-o>
 
 " Completion
-set completeopt=menu
+set completeopt=longest,menuone
 imap <C-Space> <C-p>
 imap <C-S-Space> <C-n>
 
@@ -328,6 +316,12 @@ inoremap <D-d> <Esc>Ypi
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
+nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
+nnoremap <leader>es <C-w>s<C-w>j:e ~/.vim/snippets/<cr>
+nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
+nnoremap <leader>ez <C-w>s<C-w>j:e ~/.zshrc<cr>
+nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
+
 
 " / _(_) | ___  | |_ _   _ _ __   ___  ___
 "| |_| | |/ _ \ | __| | | | '_ \ / _ \/ __|
@@ -370,7 +364,6 @@ let g:hs_highlight_delimiters = 1
 " Ion Settings
 au BufEnter,BufNewFile *.ion setfiletype ion
 au BufEnter,BufNewFile *.ion setl lisp
-
 
 " Markdown
 augroup ft_markdown
