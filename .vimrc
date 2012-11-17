@@ -7,16 +7,15 @@
 " :BundleInstall! to install(!update) bundles
 filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
+let g:vundle_default_git_proto = 'git'
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
 "
 Bundle 'AutoTag'
 Bundle 'CSApprox'
-Bundle 'MultipleSearch2.vim'
+" Bundle 'MultipleSearch2.vim'
 Bundle 'Rename'
-Bundle 'oscarh/vimerl'
-Bundle 'confluencewiki.vim'
 Bundle 'grep.vim'
 Bundle 'scratch.vim'
 Bundle 'surround.vim'
@@ -65,6 +64,8 @@ endfunction
 
 autocmd BufEnter    *.git/COMMIT_EDITMSG             exe BufEnterCommit()
 autocmd BufReadPost fugitive://* set bufhidden=delete           " Automatically remove fugitive buffers
+map <D-k> :Gstatus<CR>
+imap <D-k> <Esc>:Gstatus<CR>
 
 
 " NERDTree
@@ -81,9 +82,9 @@ let g:NERDTreeChDirMode=2 " Change the NERDTree directory to the root node
 let g:NERDTreeMinimalUI=1
 
 " idutils
-Bundle 'milkbikis/IDSearch.vim'
-map <leader>w :call g:IDSearchCurrentWord()<CR>
-map <leader>i :call g:IDSearchCustom()<CR>
+" Bundle 'milkbikis/IDSearch.vim'
+" map <leader>w :call g:IDSearchCurrentWord()<CR>
+" map <leader>i :call g:IDSearchCustom()<CR>
 
 " tComment
 " Command-/ to toggle comments
@@ -99,10 +100,8 @@ vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
 " automatic helper
 " Bundle 'scrooloose/syntastic'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'garbas/vim-snipmate'
-" Bundle 'honza/snipmate-snippets'
+" Bundle "honza/snipmate-snippets"
+Bundle "msanders/snipmate.vim"
 
 " commands
 " Bundle 'godlygeek/tabular'
@@ -117,8 +116,12 @@ let g:vimclojure#WantNailgun = 0
 Bundle 'JSON.vim'
 Bundle 'syntaxhaskell.vim'
 Bundle 'vim-pandoc/vim-pandoc'
-Bundle 'hallison/vim-markdown'
+"Bundle 'hallison/vim-markdown'
 Bundle 'rodjek/vim-puppet'
+" erlang
+" Bundle 'oscarh/vimerl'
+
+" Bundle 'confluencewiki.vim'
 
 " Makes css colors show up as their actual colors, works better with CSApprox
 " or macvim
@@ -138,7 +141,7 @@ map <silent> <F5> :call UpdateIndexes()<CR>
 
 filetype plugin indent on     " required by vundle!
 syntax on
-
+"                                 _
 "  __ _  ___ _ __   ___ _ __ __ _| |
 " / _` |/ _ \ '_ \ / _ \ '__/ _` | |
 "| (_| |  __/ | | |  __/ | | (_| | |
@@ -194,7 +197,7 @@ set noswapfile
 set undofile                            " Set undo
 
 set nospell                             " Spell checking on
-
+"       _                 _
 "__   _(_)___ _   _  __ _| |
 "\ \ / / / __| | | |/ _` | |
 " \ V /| \__ \ |_| | (_| | |
@@ -221,14 +224,12 @@ set showbreak=↪
 "set guitabtooltip=%F                    "Set up tab tooltips with every buffer name
 
 colorscheme jellybeans
-
 " _     _           _ _
 "| |__ (_)_ __   __| (_)_ __   __ _ ___
 "| '_ \| | '_ \ / _` | | '_ \ / _` / __|
 "| |_) | | | | | (_| | | | | | (_| \__ \
 "|_.__/|_|_| |_|\__,_|_|_| |_|\__, |___/
 "                             |___/
-
 autocmd FileType text setlocal textwidth=80
 autocmd BufWrite * :call Cleanup()
 "autocmd Syntax * syn match ErrorMsg /\s\+$/
@@ -316,42 +317,43 @@ inoremap <D-d> <Esc>Ypi
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
-nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
-nnoremap <leader>es <C-w>s<C-w>j:e ~/.vim/snippets/<cr>
-nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
-nnoremap <leader>ez <C-w>s<C-w>j:e ~/.zshrc<cr>
-nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
+" Quickly edit/reload the vimrc file
+nmap <silent><leader>ev :edit $MYVIMRC<CR>
+nmap <silent><leader>sv :source $MYVIMRC<CR>
 
+"nnoremap <leader>eu <C-w>s<C-w>j:e $MYVIMRC<cr>
 
+autocmd FocusLost * :wa
+"  __ _ _        _
 " / _(_) | ___  | |_ _   _ _ __   ___  ___
 "| |_| | |/ _ \ | __| | | | '_ \ / _ \/ __|
 "|  _| | |  __/ | |_| |_| | |_) |  __/\__ \
 "|_| |_|_|\___|  \__|\__, | .__/ \___||___/
 "                    |___/|_|
-" Scala settings
-au FileType scala setlocal tabstop=4
-au FileType scala setlocal shiftwidth=4
+" Scala
+autocmd FileType scala setlocal tabstop=4
+autocmd FileType scala setlocal shiftwidth=4
 
-" Java settings
-au FileType java setlocal tabstop=4
-au FileType java setlocal shiftwidth=4
+" Java
+autocmd FileType java setlocal tabstop=4
+autocmd FileType java setlocal shiftwidth=4
 
-au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
-au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=pandoc
-au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
+autocmd BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
+autocmd BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=pandoc
+autocmd BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
 
-" Clojure Settings
-au BufEnter,BufNewFile *.clj setfiletype clojure
-au BufEnter,BufNewFile *.clj setl lisp
+" Clojure
+autocmd BufEnter,BufNewFile *.clj setfiletype clojure
+autocmd BufEnter,BufNewFile *.clj setl lisp
 
-" Protocol buffers
-au BufEnter,BufNewFile *.proto setfiletype proto
+" Protocol
+autocmd BufEnter,BufNewFile *.proto setfiletype proto
 
 " JSON
-au BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
+autocmd BufRead,BufNewFile *.json set filetype=json foldmethod=syntax
 
-" Haskell Settings
-au BufEnter *.hs compiler ghc
+" Haskell
+autocmd BufEnter *.hs compiler ghc
 let g:haddock_browser = "firefox"
 let g:haddock_docdir="~/.cabal/share/doc/"
 let g:haddock_indexfiledir="~/.vim/bundle/haskell"
@@ -361,31 +363,6 @@ let g:hs_highlight_debug = 1
 let g:hs_allow_hash_operator = 1
 let g:hs_highlight_delimiters = 1
 
-" Ion Settings
-au BufEnter,BufNewFile *.ion setfiletype ion
-au BufEnter,BufNewFile *.ion setl lisp
-
-" Markdown
-augroup ft_markdown
-    autocmd!
-    " Use <localLeader>1/2/3/4/5/6 to add headings
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>1 I# <ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>2 I## <ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>3 I### <ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>4 I#### <ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>5 I##### <ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>6 I###### <ESC>
-    " Use <LocalLeader>b to add blockquotes in normal and visual mode
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>b I> <ESC>
-    autocmd Filetype markdown vnoremap <buffer> <localLeader>b :s/^/> /<CR>
-    " Use <localLeader>ul and <localLeader>ol to add list symbols in visual mode
-    autocmd Filetype markdown vnoremap <buffer> <localLeader>ul :s/^/* /<CR>
-    autocmd Filetype markdown vnoremap <buffer> <LocalLeader>ol :s/^/\=(line(".")-line("'<")+1).'. '/<CR>
-    " Use <localLeader>e1/2/3 to add emphasis symbols
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>e1 I*<ESC>A*<ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>e2 I**<ESC>A**<ESC>
-    autocmd Filetype markdown nnoremap <buffer> <localLeader>e3 I***<ESC>A***<ESC>
-    " Use <Leader>P to preview markdown file in browser
-    autocmd Filetype markdown nnoremap <buffer> <Leader>P :MarkdownPreview<CR>
-augroup END
-
+" Ion
+autocmd BufEnter,BufNewFile *.ion setfiletype ion
+autocmd BufEnter,BufNewFile *.ion setl lisp
