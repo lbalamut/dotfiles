@@ -22,11 +22,6 @@ Bundle 'surround.vim'
 
 " UI Additions
 Bundle 'Lokaltog/vim-powerline'
-let g:Powerline_stl_path_style = 'short'
-call Pl#Theme#RemoveSegment('fugitive:branch')
-call Pl#Theme#RemoveSegment('fileformat')
-call Pl#Theme#RemoveSegment('fileencoding')
-call Pl#Theme#RemoveSegment('scrollpercent')
 
 Bundle 'nanotech/jellybeans.vim'
 
@@ -101,8 +96,6 @@ Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "honza/snipmate-snippets"
 Bundle "garbas/vim-snipmate"
-
-"Bundle "msanders/snipmate.vim"
 
 " commands
 " Bundle 'godlygeek/tabular'
