@@ -22,9 +22,6 @@ Bundle 'surround.vim'
 
 " UI Additions
 Bundle 'Lokaltog/vim-powerline'
-if has('gui_running') && (!has('win64') || !has('win32'))
-  let g:Powerline_symbols='unicode'
-endif
 let g:Powerline_stl_path_style = 'short'
 call Pl#Theme#RemoveSegment('fugitive:branch')
 call Pl#Theme#RemoveSegment('fileformat')
@@ -159,7 +156,6 @@ set backspace=indent,eol,start
 set history=500                         "command history buffer
 set autoindent
 set ruler                               "show line and column of cursor position
-set showcmd                             "show command
 set incsearch                           "start search while typing
 set hlsearch                            "mark search results
 set fdm=indent                          "fold method
@@ -178,7 +174,7 @@ set laststatus=2                        "always show the status line
 
 set autowrite                           "writes on make/shell commands
 set autoread
-set timeoutlen=250                      "time to wait after ESC (default causes an annoying delay)
+"set timeoutlen=250                      "time to wait after ESC (default causes an annoying delay)
 
 set encoding=utf-8
 
@@ -201,6 +197,8 @@ set noswapfile
 set undofile                            " Set undo
 
 set nospell                             " Spell checking on
+nnoremap ; :
+
 "       _                 _
 "__   _(_)___ _   _  __ _| |
 "\ \ / / / __| | | |/ _` | |
