@@ -2,16 +2,11 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# If not running interactively, don't do anything
-#[ -z "$PS1" ] && return
-
-
 #                 _                                      _
 #  ___ _ ____   _(_)_ __ ___  _ __  _ __ ___   ___ _ __ | |_
 # / _ \ '_ \ \ / / | '__/ _ \| '_ \| '_ ` _ \ / _ \ '_ \| __|
 #|  __/ | | \ V /| | | | (_) | | | | | | | | |  __/ | | | |_
 # \___|_| |_|\_/ |_|_|  \___/|_| |_|_| |_| |_|\___|_| |_|\__|
-
 
 export EDITOR="/usr/local/bin/mvim"
 export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
@@ -25,13 +20,24 @@ export EC2_URL=https://ec2.eu-west-1.amazonaws.com
 #directories aliases
 CDPATH='.:..:../..:~:~/work:~/work/nokia'
 
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/scripts" ] ; then
+    PATH="$HOME/scripts:$HOME/scripts/nokia:$PATH"
+fi
+
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
+export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+
 #             _   _
 #  ___  _ __ | |_(_) ___  _ __  ___
 # / _ \| '_ \| __| |/ _ \| '_ \/ __|
 #| (_) | |_) | |_| | (_) | | | \__ \
 # \___/| .__/ \__|_|\___/|_| |_|___/
 #      |_|
-
 # Wrap lines correctly after resizing them
 #shopt -s checkwinsize
 
@@ -63,7 +69,7 @@ unset MAILCHECK
 shopt -s cdable_vars
 
 # Use vi keybindings
-set -o vi
+# set -o vi
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -76,8 +82,6 @@ set cmdhist
 #| '_ \| / __| __/ _ \| '__| | | |
 #| | | | \__ \ || (_) | |  | |_| |
 #|_| |_|_|___/\__\___/|_|   \__, |
-#history
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTCONTROL=ignoreboth,erasedups
 export HISTSIZE=1000000
@@ -92,8 +96,6 @@ shopt -s histappend
 # / _` | | |/ _` / __|/ _ \/ __|
 #| (_| | | | (_| \__ \  __/\__ \
 # \__,_|_|_|\__,_|___/\___||___/
-
-
 alias l='ls -CF'
 alias ll='ls -alF'
 alias la='ls -Fa'
@@ -139,8 +141,6 @@ alias title=title
 #| |_| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
 #|  _| |_| | | | | (__| |_| | (_) | | | \__ \
 #|_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
-
-
 function jc {
     jmx_host=$1
     jmx_port=${2:-5000}
@@ -206,7 +206,6 @@ function git-word-hist() {
         *)    git log -w -S "$1" ;;
     esac
 }
-
 #                           _      _   _ _   _
 #  ___ ___  _ __ ___  _ __ | | ___| |_(_) |_(_) ___  _ __
 # / __/ _ \| '_ ` _ \| '_ \| |/ _ \ __| | __| |/ _ \| '_ \
@@ -216,7 +215,6 @@ function git-word-hist() {
 # General, http://bash-completion.alioth.debian.org/
 # Homebrew, https://github.com/mxcl/homebrew/raw/master/Library/Contributions/brew_bash_completion.sh
 # Git, https://github.com/git/git/raw/master/contrib/completion/git-completion.bash
-
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
@@ -239,8 +237,6 @@ complete -f -o default -X '!*.+(zip|ZIP|z|Z|gz|GZ|bz2|BZ2)' extract
 complete -f -X '!*.py' python
 complete -f -X '!*.rb' ruby
 complete -f -X '!*.pl' perl
-
-
 #                                 _
 # _ __  _ __ ___  _ __ ___  _ __ | |_
 #| '_ \| '__/ _ \| '_ ` _ \| '_ \| __|
@@ -259,13 +255,11 @@ if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
 fi
 
 PROMPT_COMMAND='history -a'
-
 # _ __  _ __ _____  ___   _
 #| '_ \| '__/ _ \ \/ / | | |
 #| |_) | | | (_) >  <| |_| |
 #| .__/|_|  \___/_/\_\\__, |
 #|_|                  |___/
-
 function no_proxy() {
     export http_proxy=
     export https_proxy=
@@ -283,14 +277,15 @@ function nokia_proxy() {
     export HTTP_PROXY=nokes.nokia.com:8080
     export FTP_PROXY=nokes.nokia.com:8080
 }
-
 #            _
 # _ __ _   _| |__  _   _
 #| '__| | | | '_ \| | | |
 #| |  | |_| | |_) | |_| |
 #|_|   \__,_|_.__/ \__, |
 #                  |___/
-
 #rvm lazy instantiation
-#rvm() { [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"; }
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+function rvm() {
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm";
+    export PATH=$HOME/.rvm/bin:$PATH
+}
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
