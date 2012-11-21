@@ -151,6 +151,7 @@ set autoindent
 set ruler                               "show line and column of cursor position
 set incsearch                           "start search while typing
 set hlsearch                            "mark search results
+set ignorecase                          "search ignore case
 set fdm=indent                          "fold method
 set fdc=2                               "fold column width showing fold marks
 set nofoldenable                        "turn folding off (toggle with zi)
@@ -253,10 +254,10 @@ imap <C-S-Space> <C-n>
 nnoremap <silent> <F4> :Rgrep<CR>
 
 " Window management
-nnoremap <M-Right> <C-W>>
-nnoremap <M-Left>  <C-W><
-nnoremap <M-Down>  <C-W>+
-nnoremap <M-Up>    <C-W>-
+map <M-Right> <C-w>>
+map <M-Left>  <C-w><
+map <M-Down>  <C-w>+
+map <M-Up>    <C-w>-
 
 " Command-Option-ArrowKey to switch viewports
 map <D-M-Up> <C-w>k
@@ -312,12 +313,12 @@ inoremap <D-d> <Esc>Ypi
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
-" Quickly edit/reload the vimrc file
-nmap <silent><leader>ev :edit $MYVIMRC<CR>
-nmap <silent><leader>sv :source $MYVIMRC<CR>
+" Quick edits
+nnoremap <silent><leader>ev <C-w>s<C-w>j:edit $MYVIMRC<cr>
+nnoremap <silent><leader>es :edit ~/.ssh/config<cr>
+nnoremap <silent><leader>eg :edit ~/.gitconfig<cr>
 
-"nnoremap <leader>eu <C-w>s<C-w>j:e $MYVIMRC<cr>
-
+" Always write when focus is lost
 autocmd FocusLost * :wa
 "  __ _ _        _
 " / _(_) | ___  | |_ _   _ _ __   ___  ___
