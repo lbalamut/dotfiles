@@ -24,6 +24,7 @@ Bundle 'surround.vim'
 Bundle 'Lokaltog/vim-powerline'
 
 Bundle 'nanotech/jellybeans.vim'
+Bundle 'altercation/vim-colors-solarized'
 
 " FuzzyFinder
 Bundle 'L9'
@@ -110,8 +111,7 @@ let g:vimclojure#WantNailgun = 0
 Bundle 'JSON.vim'
 Bundle 'syntaxhaskell.vim'
 Bundle 'vim-pandoc/vim-pandoc'
-"Bundle 'hallison/vim-markdown'
-Bundle 'rodjek/vim-puppet'
+Bundle 'lbalamut/vim-puppet'
 " erlang
 " Bundle 'oscarh/vimerl'
 
@@ -160,7 +160,7 @@ set expandtab                           "replace tabs with spaces
 set tags=tags;/
 set hidden                              "enable buffers without disk access
 set wildmenu                            "use bash like tab completion for files
-set wildmode=list,longest               "at command line, complete longest common string, then list alternatives.
+set wildmode=longest,list               "at command line, complete longest common string, then list alternatives.
 set smartcase                           "unless the first character is uppercase
 set scrolloff=3                         "context around moving cursor
 set laststatus=2                        "always show the status line
@@ -168,7 +168,6 @@ set laststatus=2                        "always show the status line
 
 set autowrite                           "writes on make/shell commands
 set autoread
-"set timeoutlen=250                      "time to wait after ESC (default causes an annoying delay)
 
 set encoding=utf-8
 
@@ -199,7 +198,7 @@ nnoremap ; :
 " \ V /| \__ \ |_| | (_| | |
 "  \_/ |_|___/\__,_|\__,_|_|
 "
-set t_Co=256                            "force 256 colours (for CSApprox)
+" set t_Co=256                            "force 256 colours (for CSApprox)
 set number                              "show line numbers
 set showmatch                           "Show matching brackets.
 set matchtime=5                         "Bracket blinking.
@@ -254,6 +253,7 @@ imap <C-S-Space> <C-n>
 nnoremap <silent> <F4> :Rgrep<CR>
 
 " Window management
+let macvim_skip_cmd_opt_movement = 1
 map <M-Right> <C-w>>
 map <M-Left>  <C-w><
 map <M-Down>  <C-w>+
