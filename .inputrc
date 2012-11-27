@@ -1,0 +1,10 @@
+$if bash
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+Space: magic-space
+set match-hidden-files off
+set completion-ignore-case on
+set visible-stats on
+set show-all-if-ambiguous on
+$endif
+
