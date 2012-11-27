@@ -20,7 +20,6 @@ export EC2_URL=https://ec2.eu-west-1.amazonaws.com
 #directories aliases
 CDPATH='.:..:../..:~:~/work:~/work/nokia'
 
-
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
@@ -83,10 +82,10 @@ set cmdhist
 #| | | | \__ \ || (_) | |  | |_| |
 #|_| |_|_|___/\__\___/|_|   \__, |
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTCONTROL=ignoreboth,erasedups
+export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
-export HISTIGNORE="&:[ ]*:exit:echo"
+export HISTIGNORE="&":"[ ]*":exit:echo:ls:ll:"ls -altr":"ls -alt":la:l:pwd:exit:mc:su:df:clear:ps:h:history:"ls -al"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -217,7 +216,7 @@ function git-word-hist() {
 # Git, https://github.com/git/git/raw/master/contrib/completion/git-completion.bash
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
+    source $(brew --prefix)/etc/bash_completion
 fi
 
 complete -A user su mail finger
@@ -237,6 +236,7 @@ complete -f -o default -X '!*.+(zip|ZIP|z|Z|gz|GZ|bz2|BZ2)' extract
 complete -f -X '!*.py' python
 complete -f -X '!*.rb' ruby
 complete -f -X '!*.pl' perl
+
 #                                 _
 # _ __  _ __ ___  _ __ ___  _ __ | |_
 #| '_ \| '__/ _ \| '_ ` _ \| '_ \| __|
@@ -244,7 +244,6 @@ complete -f -X '!*.pl' perl
 #| .__/|_|  \___/|_| |_| |_| .__/ \__|
 #|_|                       |_|
 # Only use git prompt if git bash completion is installed.
-
 if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     export GIT_PS1_SHOWDIRTYSTATE="true"
     export GIT_PS1_SHOWSTASHSTATE="true"
@@ -254,7 +253,8 @@ if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     PS1='\[\033[32m\]\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]\[\033[33m\]$(__git_ps1)\[\033[00m\]: '
 fi
 
-PROMPT_COMMAND='history -a'
+PROMPT_COMMAND="history -w"
+
 # _ __  _ __ _____  ___   _
 #| '_ \| '__/ _ \ \/ / | | |
 #| |_) | | | (_) >  <| |_| |
@@ -284,8 +284,7 @@ function nokia_proxy() {
 #|_|   \__,_|_.__/ \__, |
 #                  |___/
 #rvm lazy instantiation
-function rvm() {
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm";
-    export PATH=$HOME/.rvm/bin:$PATH
+function rvm-init() {
+   export PATH=$HOME/.rvm/bin:$PATH
+   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm";
 }
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
