@@ -29,14 +29,9 @@ Bundle 'altercation/vim-colors-solarized'
 " FuzzyFinder
 Bundle 'L9'
 Bundle 'FuzzyFinder'
-map <D-e> :FufBuffer<CR>
-imap <D-e> <Esc>:FufBuffer<CR>
-map <D-n> :FufTaggedFile<CR>
-imap <D-n> <Esc>:FufTaggedFile<CR>
 
 " Tagbar
 Bundle 'Tagbar'
-nnoremap <silent> <D-F12> :TagbarToggle<CR>
 let g:tagbar_autofocus=1
 let g:tagbar_expand=1
 let g:tagbar_foldlevel=2
@@ -47,49 +42,25 @@ let g:tagbar_autoshowtag=1
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-fugitive'
 
-" Start in insert mode for commit
-function! BufEnterCommit()
-  normal gg0
-  if getline('.') == ''
-    start
-  end
-endfunction
-
-autocmd BufEnter    *.git/COMMIT_EDITMSG             exe BufEnterCommit()
-autocmd BufReadPost fugitive://* set bufhidden=delete           " Automatically remove fugitive buffers
-map <D-k> :Gstatus<CR>
-imap <D-k> <Esc>:Gstatus<CR>
-
-
 " NERDTree
 Bundle 'scrooloose/nerdtree'
-map <D-1> :execute 'NERDTreeToggle ' . getcwd()<CR>
-imap <D-1> <Esc>:execute 'NERDTreeToggle ' . getcwd()<CR>
-nnoremap <Leader>f :NERDTreeFind<CR>
 let NERDTreeChDirMode=2
-let NERDTreeShowBookmarks=0
+let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
-let NERDTreeShowLineNumbers=1
 let NERDTreeDirArrows=1
-let g:NERDTreeChDirMode=2 " Change the NERDTree directory to the root node
-let g:NERDTreeMinimalUI=1
+let NERDTreeChDirMode=2 " Change the NERDTree directory to the root node
+let NERDTreeMinimalUI=1
+let NERDTreeShowLineNumbers=0
 
 " idutils
 " Bundle 'milkbikis/IDSearch.vim'
-" map <leader>w :call g:IDSearchCurrentWord()<CR>
-" map <leader>i :call g:IDSearchCustom()<CR>
 
 " tComment
 " Command-/ to toggle comments
 Bundle "tComment"
-nmap <D-/> :TComment<CR>j
-imap <D-/> <Esc>:TComment<CR>ji
-vmap <D-/> :TComment<CR>
 
 " Ack
 Bundle "ack.vim"
-noremap <S-C-F> "ayiw:Ack <C-r>a<CR>
-vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
 " automatic helper
 " Bundle 'scrooloose/syntastic'
@@ -123,10 +94,6 @@ Bundle 'ap/vim-css-color'
 
 " custom functions
 source ~/.vim/functions.vim
-
-map <leader>s :call ToggleScratch()<CR>
-map <leader>c :call Cleanup()<CR>
-map <silent> <F5> :call UpdateIndexes()<CR>
 
 "scala
 "lushtags
@@ -170,9 +137,6 @@ set autowrite                           "writes on make/shell commands
 set autoread
 
 set encoding=utf-8
-
-let mapleader = ","
-let maplocalleader = ","
 
 " default tab settings
 set tabstop=4                           " Set the default tabstop
@@ -225,7 +189,9 @@ colorscheme jellybeans
 "| |_) | | | | | (_| | | | | | (_| \__ \
 "|_.__/|_|_| |_|\__,_|_|_| |_|\__, |___/
 "                             |___/
-autocmd FileType text setlocal textwidth=80
+let mapleader = ","
+let maplocalleader = ","
+
 autocmd BufWrite * :call Cleanup()
 "autocmd Syntax * syn match ErrorMsg /\s\+$/
 " Highlight current line in input mode
@@ -320,12 +286,56 @@ nnoremap <silent><leader>eg :edit ~/.gitconfig<cr>
 
 " Always write when focus is lost
 autocmd FocusLost * :wa
+
+" fuzzy finder
+map <D-e> :FufBuffer<CR>
+imap <D-e> <Esc>:FufBuffer<CR>
+map <D-n> :FufTaggedFile<CR>
+imap <D-n> <Esc>:FufTaggedFile<CR>
+
+" tagbar
+nnoremap <silent> <D-F12> :TagbarToggle<CR>
+
+" Start in insert mode for commit
+function! BufEnterCommit()
+  normal gg0
+  if getline('.') == ''
+    start
+  end
+endfunction
+
+autocmd BufEnter    *.git/COMMIT_EDITMSG             exe BufEnterCommit()
+autocmd BufReadPost fugitive://* set bufhidden=delete           " Automatically remove fugitive buffers
+map <D-k> :Gstatus<CR>
+imap <D-k> <Esc>:Gstatus<CR>
+
+map <D-1> :execute 'NERDTreeToggle ' . getcwd()<CR>
+imap <D-1> <Esc>:execute 'NERDTreeToggle ' . getcwd()<CR>
+nnoremap <Leader>f :NERDTreeFind<CR>
+
+nmap <D-/> :TComment<CR>j
+imap <D-/> <Esc>:TComment<CR>ji
+vmap <D-/> :TComment<CR>
+
+noremap <S-C-F> "ayiw:Ack <C-r>a<CR>
+vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
+
+"  ~/.vim/functions.vim
+map <leader>s :call ToggleScratch()<CR>
+map <leader>c :call Cleanup()<CR>
+map <silent> <F5> :call UpdateIndexes()<CR>
+
+" map <leader>w :call g:IDSearchCurrentWord()<CR>
+" map <leader>i :call g:IDSearchCustom()<CR>
+
 "  __ _ _        _
 " / _(_) | ___  | |_ _   _ _ __   ___  ___
 "| |_| | |/ _ \ | __| | | | '_ \ / _ \/ __|
 "|  _| | |  __/ | |_| |_| | |_) |  __/\__ \
 "|_| |_|_|\___|  \__|\__, | .__/ \___||___/
 "                    |___/|_|
+autocmd FileType text setlocal textwidth=80
+
 " Scala
 autocmd FileType scala setlocal tabstop=4
 autocmd FileType scala setlocal shiftwidth=4
