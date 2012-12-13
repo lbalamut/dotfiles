@@ -1,10 +1,21 @@
 $if bash
-"\e[B": history-search-forward
-"\e[A": history-search-backward
-Space: magic-space
-set match-hidden-files off
-set completion-ignore-case on
-set visible-stats on
-set show-all-if-ambiguous on
+  # use up/down arrows to search history with prefix already typed
+  "\e[B": history-search-forward
+  "\e[A": history-search-backward
+
+  # magic space expands something like that !-2:0 -R !^ !-3:2 after
+  # space so you can review before pressing enter
+  Space: magic-space
+
+  # Keep hidden files hidden when doing, for example, cp ~/ Tab
+  set match-hidden-files off
+  # Complete things that have been typed in the wrong case
+  set completion-ignore-case on
+  # When listing possible file completions, put / after directory names and * after programs:
+  set visible-stats on
+  # List the possible completions when Tab is pressed:
+  set show-all-if-ambiguous on
+
+  "\M-o": "\C-p\C-a\M-f "
 $endif
 

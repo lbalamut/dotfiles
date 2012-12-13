@@ -85,7 +85,7 @@ set cmdhist
 export HISTCONTROL=ignoreboth:erasedups
 export HISTSIZE=1000000
 export HISTFILESIZE=$HISTSIZE
-export HISTIGNORE="&":"[ ]*":exit:echo:ls:ll:"ls -altr":"ls -alt":la:l:pwd:exit:mc:su:df:clear:ps:h:history:"ls -al"
+# export HISTIGNORE="&":"[ ]*":exit:ll:la:l:pwd:df
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -128,12 +128,10 @@ if [ -x /usr/local/bin/gdircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-title()
-{
+title() {
   echo -n -e "\033]0;$1\007"
 }
-
-alias title=title
+export -f title
 
 #  __                  _   _
 # / _|_   _ _ __   ___| |_(_) ___  _ __  ___
@@ -151,6 +149,7 @@ function jc {
     jconsole -J-DsocksProxyHost=localhost -J-DsocksProxyPort=${proxy_port} service:jmx:rmi:///jndi/rmi://${jmx_host}:${jmx_port}/jmxrmi
     kill $(ps ax | grep "[s]sh -f -ND $proxy_port" | awk '{print $1}')
 }
+export -f jc
 
 function jvvm {
     jmx_host=$1
@@ -163,6 +162,7 @@ function jvvm {
     jvisualvm -J-Dnetbeans.system_socks_proxy=localhost:${proxy_port} -J-Djava.net.useSystemProxies=true --openjmx  service:jmx:rmi:///jndi/rmi://${jmx_host}:${jmx_port}/jmxrmi
     kill $(ps ax | grep "[s]sh -f -ND $proxy_port" | awk '{print $1}')
 }
+export -f jvvm
 
 # Makes extraction easier
 function extract() {
@@ -185,12 +185,14 @@ function extract() {
          echo "'$1' is not a valid file"
      fi
 }
+export -f extract
 
 # Nice shortcut for finding files and executing commands on them
 # E.g. `fe pyc rm`
 function fe() {
   find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ;
 }
+export -f fe
 
 function git-file-hist() {
     case $1 in
