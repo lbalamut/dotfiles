@@ -1,0 +1,20 @@
+--langmap=lisp:+.clj
+--langdef=scala
+--langmap=scala:.scala
+--regex-scala=/^[[:space:]]*(final|sealed|abstract|private|public|[[:space:]])*class[[:space:]]+([a-zA-Z0-9_]+)/\2/c,classes/
+--regex-scala=/^[[:space:]]*(final|sealed|public|private|[[:space:]])*trait[[:space:]]+([a-zA-Z0-9_]+)/\2/t,traits/
+--regex-scala=/^[[:space:]]*type[[:space:]]+([a-zA-Z0-9_]+)/\1/T,types/
+--regex-scala=/^[[:space:]]*(override|private|protected|implicit|lazy|[[:space:]])*def[[:space:]]+([a-zA-Z0-9_]+)/\2/m,methods/
+--regex-scala=/^[[:space:]]*(override|private|protected|implicit|lazy|[[:space:]])*val[[:space:]]+([a-zA-Z0-9_]+)/\2/C,constants/
+--regex-scala=/^[[:space:]]*(override|private|protected|implicit|[[:space:]])*var[[:space:]]+([a-zA-Z0-9_]+)/\2/l,local variables/
+--regex-scala=/^[[:space:]]*package[[:space:]]+([a-zA-Z0-9_.]+)/\1/p,packages/
+--regex-scala=/^[[:space:]]*(final|sealed|private|public|[[:space:]])*case class[[:space:]]+([a-zA-Z0-9_]+)/\2/c,case classes/
+--regex-scala=/^[[:space:]]*(private|public|[[:space:]])*object[[:space:]]+([a-zA-Z0-9_]+)/\2/o,objects/
+--regex-scala=/^[[:space:]]*(private|public|[[:space:]])*case object[[:space:]]+([a-zA-Z0-9_]+)/\2/o,case objects/
+
+--langdef=puppet
+--langmap=puppet:.pp
+--regex-puppet=/^class[ \t]*([:a-zA-Z0-9_\-]+)[ \t]*/\1/d,definition/
+--regex-puppet=/^site[ \t]*([a-zA-Z0-9_\-]+)[ \t]*/\1/d,definition/
+--regex-puppet=/^node[ \t]*([a-zA-Z0-9_\-]+)[ \t]*/\1/d,definition/
+--regex-puppet=/^define[ \t]*([:a-zA-Z0-9_\-]+)[ \t]*/\1/d,definition/
