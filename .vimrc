@@ -26,9 +26,7 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'nanotech/jellybeans.vim'
 Bundle 'altercation/vim-colors-solarized'
 
-" FuzzyFinder
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+Bundle 'kien/ctrlp.vim'
 
 " Tagbar
 Bundle 'Tagbar'
@@ -156,6 +154,8 @@ set undofile                            " Set undo
 set nospell                             " Spell checking on
 nnoremap ; :
 
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+
 "       _                 _
 "__   _(_)___ _   _  __ _| |
 "\ \ / / / __| | | |/ _` | |
@@ -280,18 +280,25 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 
 " Quick edits
-nnoremap <silent><leader>ev <C-w>s<C-w>j:edit $MYVIMRC<cr>
+nnoremap <silent><leader>ev :edit $MYVIMRC<cr>
+nnoremap <silent><leader>sv :source $MYVIMRC<cr>
 nnoremap <silent><leader>es :edit ~/.ssh/config<cr>
 nnoremap <silent><leader>eg :edit ~/.gitconfig<cr>
+nnoremap <silent><leader>eb :edit ~/.bashrc<cr>
 
 " Always write when focus is lost
-autocmd FocusLost * :wa
+autocmd FocusLost * silent! wa
 
-" fuzzy finder
-map <D-e> :FufBuffer<CR>
-imap <D-e> <Esc>:FufBuffer<CR>
-map <D-n> :FufTaggedFile<CR>
-imap <D-n> <Esc>:FufTaggedFile<CR>
+" ctrlp
+map <D-e> :CtrlPBuffer<CR>
+imap <D-e> <Esc>:CtrlPBuffer<CR>
+let g:ctrlp_map = '<D-n>'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 " tagbar
 nnoremap <silent> <D-F12> :TagbarToggle<CR>
