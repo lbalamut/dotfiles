@@ -70,6 +70,8 @@ Bundle "garbas/vim-snipmate"
 " commands
 " Bundle 'godlygeek/tabular'
 
+Bundle "sjl/gundo.vim"
+
 " language
 Bundle 'VimClojure'
 let g:vimclojure#HighlightBuiltins = 1
@@ -334,6 +336,11 @@ map <silent> <F5> :call UpdateIndexes()<CR>
 
 " map <leader>w :call g:IDSearchCurrentWord()<CR>
 " map <leader>i :call g:IDSearchCustom()<CR>
+
+nnoremap <D-2> :GundoToggle<CR>
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! %!sudo tee > /dev/null %
 
 "  __ _ _        _
 " / _(_) | ___  | |_ _   _ _ __   ___  ___
