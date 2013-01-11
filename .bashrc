@@ -8,7 +8,7 @@
 #|  __/ | | \ V /| | | | (_) | | | | | | | | |  __/ | | | |_
 # \___|_| |_|\_/ |_|_|  \___/|_| |_|_| |_| |_|\___|_| |_|\__|
 
-export EDITOR="/usr/local/bin/mvim"
+export EDITOR="/opt/local/bin/mvim"
 export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
 
 export EC2_PRIVATE_KEY="$(/bin/ls $HOME/.ec2/pk-*.pem)"
@@ -28,8 +28,11 @@ if [ -d "$HOME/scripts" ] ; then
     PATH="$HOME/scripts:$HOME/scripts/nokia:$PATH"
 fi
 
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
-export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# export MANPATH="$MANPATH"
+
+export LC_CTYPE="en_GB.UTF-8"
+export LC_ALL="C"
 
 #             _   _
 #  ___  _ __ | |_(_) ___  _ __  ___
@@ -119,7 +122,7 @@ alias mount_nas="sudo mount_nfs -o resvport,soft,intr,rsize=8192,wsize=8192,time
 alias mkdir-date="mkdir $(date +%Y-%m-%d_%H.%M.%S)"
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/local/bin/gdircolors ]; then
+if [ -x /opt/local/bin/gdircolors ]; then
     eval "`gdircolors --bourne-shell ~/.dir_colors`"
     alias ls='gls --color=auto'
 
@@ -132,6 +135,8 @@ title() {
   echo -n -e "\033]0;$1\007"
 }
 export -f title
+
+alias serve="python -c \"import SimpleHTTPServer; m = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map; m[''] = 'text/plain'; m.update(dict([(k, v + ';charset=UTF-8') for k, v in m.items()])); SimpleHTTPServer.test();\""
 
 #  __                  _   _
 # / _|_   _ _ __   ___| |_(_) ___  _ __  ___
@@ -217,8 +222,8 @@ function git-word-hist() {
 # Homebrew, https://github.com/mxcl/homebrew/raw/master/Library/Contributions/brew_bash_completion.sh
 # Git, https://github.com/git/git/raw/master/contrib/completion/git-completion.bash
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
+if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+   source /opt/local/etc/profile.d/bash_completion.sh
 fi
 
 complete -A user su mail finger
@@ -246,7 +251,9 @@ complete -f -X '!*.pl' perl
 #| .__/|_|  \___/|_| |_| |_| .__/ \__|
 #|_|                       |_|
 # Only use git prompt if git bash completion is installed.
-if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+if [ -f /opt/local/share/git-core/git-prompt.sh ]; then
+    source /opt/local/share/git-core/git-prompt.sh
+
     export GIT_PS1_SHOWDIRTYSTATE="true"
     export GIT_PS1_SHOWSTASHSTATE="true"
     export GIT_PS1_SHOWUNTRACKEDFILES="true"
@@ -255,7 +262,7 @@ if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     PS1='\[\033[32m\]\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]\[\033[33m\]$(__git_ps1)\[\033[00m\]: '
 fi
 
-PROMPT_COMMAND="history -w"
+PROMPT_COMMAND="history -a"
 
 # _ __  _ __ _____  ___   _
 #| '_ \| '__/ _ \ \/ / | | |
