@@ -28,7 +28,7 @@ if [ -d "$HOME/scripts" ] ; then
     PATH="$HOME/scripts:$HOME/scripts/nokia:$PATH"
 fi
 
-export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+export PATH="/opt/local/bin:/opt/local/sbin:~/.cabal/bin:$PATH"
 # export MANPATH="$MANPATH"
 
 export LC_CTYPE="en_GB.UTF-8"
@@ -270,12 +270,12 @@ PROMPT_COMMAND="history -a"
 #| .__/|_|  \___/_/\_\\__, |
 #|_|                  |___/
 function no_proxy() {
-    export http_proxy=
-    export https_proxy=
-    export ftp_proxy=
-    export HTTPS_PROXY=
-    export HTTP_PROXY=
-    export FTP_PROXY=
+    unset http_proxy
+    unset https_proxy
+    unset ftp_proxy
+    unset HTTPS_PROXY
+    unset HTTP_PROXY
+    unset FTP_PROXY
 }
 
 function nokia_proxy() {
