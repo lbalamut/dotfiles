@@ -20,6 +20,7 @@ function link {
 }
 
 ln -s ${thisScriptDir}/git/config ~/.gitconfig
+ln -s ${thisScriptDir}/git/ignore ~/.gitignore
 
 link .bashrc
 link .profile

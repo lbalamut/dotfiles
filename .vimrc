@@ -7,7 +7,7 @@
 " :BundleInstall! to install(!update) bundles
 filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
-let g:vundle_default_git_proto = 'git'
+let g:vundle_default_git_proto = 'http'
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
@@ -91,6 +91,8 @@ Bundle 'lbalamut/vim-puppet'
 " Makes css colors show up as their actual colors, works better with CSApprox
 " or macvim
 Bundle 'ap/vim-css-color'
+
+Bundle 'ingydotnet/yaml-vim'
 
 " custom functions
 source ~/.vim/functions.vim
@@ -386,3 +388,7 @@ let g:hs_highlight_delimiters = 1
 " Ion
 autocmd BufEnter,BufNewFile *.ion setfiletype ion
 autocmd BufEnter,BufNewFile *.ion setl lisp
+
+" puppet
+autocmd FileType puppet setlocal tabstop=4
+autocmd FileType puppet setlocal shiftwidth=4

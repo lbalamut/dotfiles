@@ -9,13 +9,8 @@
 # \___|_| |_|\_/ |_|_|  \___/|_| |_|_| |_| |_|\___|_| |_|\__|
 
 export EDITOR="/opt/local/bin/mvim"
-export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Home"
-
-export EC2_PRIVATE_KEY="$(/bin/ls $HOME/.ec2/pk-*.pem)"
-export EC2_CERT="$(/bin/ls $HOME/.ec2/cert-*.pem)"
-export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.3-45758/jars"
-export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.4.2.2/jars"
-export EC2_URL=https://ec2.eu-west-1.amazonaws.com
+# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_21.jdk/Contents/Home"
+export JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home"
 
 #directories aliases
 CDPATH='.:..:../..:~:~/work:~/work/nokia'
@@ -28,10 +23,16 @@ if [ -d "$HOME/scripts" ] ; then
     PATH="$HOME/scripts:$HOME/scripts/nokia:$PATH"
 fi
 
-export PATH="/opt/local/bin:/opt/local/sbin:~/.cabal/bin:$PATH"
+if [ -d "/opt/ec2-api-tools" ]; then
+    export EC2_HOME="/opt/ec2-api-tools"
+    PATH="$EC2_HOME/bin:$PATH"
+fi
+
+export PATH="$JAVA_HOME/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:~/.cabal/bin:/usr/texbin:$PATH"
 # export MANPATH="$MANPATH"
 
-export LC_CTYPE="en_GB.UTF-8"
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
 export LC_ALL="C"
 
 #             _   _
@@ -138,6 +139,8 @@ export -f title
 
 alias serve="python -c \"import SimpleHTTPServer; m = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map; m[''] = 'text/plain'; m.update(dict([(k, v + ';charset=UTF-8') for k, v in m.items()])); SimpleHTTPServer.test();\""
 
+alias notifier="/Applications/terminal-notifier.app/Contents/MacOS/terminal-notifier"
+
 #  __                  _   _
 # / _|_   _ _ __   ___| |_(_) ___  _ __  ___
 #| |_| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
@@ -222,9 +225,10 @@ function git-word-hist() {
 # Homebrew, https://github.com/mxcl/homebrew/raw/master/Library/Contributions/brew_bash_completion.sh
 # Git, https://github.com/git/git/raw/master/contrib/completion/git-completion.bash
 
-if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-   source /opt/local/etc/profile.d/bash_completion.sh
-fi
+[[ -s "/opt/local/etc/profile.d/bash_completion.sh" ]] && source "/opt/local/etc/profile.d/bash_completion.sh"
+
+#pandoc
+[[ -s "$HOME/.pandoc/completion/pandoc-completion.bash" ]] && source "$HOME/.pandoc/completion/pandoc-completion.bash"
 
 complete -A user su mail finger
 
@@ -277,15 +281,18 @@ function no_proxy() {
     unset HTTP_PROXY
     unset FTP_PROXY
 }
+export -f no_proxy
 
 function nokia_proxy() {
-    export http_proxy=nokes.nokia.com:8080
-    export https_proxy=nokes.nokia.com:8080
-    export ftp_proxy=nokes.nokia.com:8080
-    export HTTPS_PROXY=nokes.nokia.com:8080
-    export HTTP_PROXY=nokes.nokia.com:8080
-    export FTP_PROXY=nokes.nokia.com:8080
+    export http_proxy="http://nokes.nokia.com:8080"
+    export https_proxy="http://nokes.nokia.com:8080"
+    export ftp_proxy="http://nokes.nokia.com:8080"
+    export HTTPS_PROXY="http://nokes.nokia.com:8080"
+    export HTTP_PROXY="http://nokes.nokia.com:8080"
+    export FTP_PROXY="http://nokes.nokia.com:8080"
 }
+export -f nokia_proxy
+
 #            _
 # _ __ _   _| |__  _   _
 #| '__| | | | '_ \| | | |
@@ -293,7 +300,9 @@ function nokia_proxy() {
 #|_|   \__,_|_.__/ \__, |
 #                  |___/
 #rvm lazy instantiation
-function rvm-init() {
+function rvm_init() {
    export PATH=$HOME/.rvm/bin:$PATH
    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm";
 }
+export -f rvm_init
+
